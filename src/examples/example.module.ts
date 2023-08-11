@@ -1,7 +1,7 @@
 import { HttpModule } from "@nestjs/axios";
 import { Module } from "@nestjs/common";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { Example } from "./entities/example.model";
+import { ExampleModel } from "./models/example.model";
 import { ExampleGatewayHttp } from "./gateways/example-gateway-http";
 import { ExampleGatewaySequelize } from "./gateways/example-gateway-sequelize";
 import { ExampleController } from "./example.controller";
@@ -9,11 +9,11 @@ import { ExampleService } from "./example.service";
 import { BullModule } from "@nestjs/bull";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { CreateExampleJob } from "./jobs/create-example.job";
-import { PublishExampleCreatedListener } from "./listeners/publish-example-created.listener";
+import { ExampleCreatedListener } from "./listeners/example-created.listener";
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Example]),
+    SequelizeModule.forFeature([ExampleModel]),
     HttpModule.register({
       baseURL: "http://localhost:8000"
     }),
@@ -27,7 +27,7 @@ import { PublishExampleCreatedListener } from "./listeners/publish-example-creat
     ExampleService,
     ExampleGatewaySequelize,
     ExampleGatewayHttp,
-    PublishExampleCreatedListener,
+    ExampleCreatedListener,
     CreateExampleJob,
     {
       provide: "ProviderExamplePersistenceGateway",

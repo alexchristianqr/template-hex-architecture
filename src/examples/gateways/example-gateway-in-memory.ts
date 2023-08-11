@@ -1,5 +1,5 @@
 import { ExampleEntity } from "../entities/example.entity";
-import { ExampleGatewayInterface } from "./example-gateway-interface";
+import { ExampleGatewayInterface } from "../interfaces/example-gateway.interface";
 
 export class ExampleGatewayInMemory implements ExampleGatewayInterface {
   items: ExampleEntity[] = [];

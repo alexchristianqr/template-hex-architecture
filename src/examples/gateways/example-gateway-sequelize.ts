@@ -1,14 +1,14 @@
 import { InjectModel } from "@nestjs/sequelize";
-import { Example } from "../entities/example.model";
-import { ExampleGatewayInterface } from "./example-gateway-interface";
+import { ExampleModel } from "../models/example.model";
+import { ExampleGatewayInterface } from "../interfaces/example-gateway.interface";
 import { ExampleEntity } from "../entities/example.entity";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class ExampleGatewaySequelize implements ExampleGatewayInterface {
   constructor(
-    @InjectModel(Example)
-    private example: typeof Example,
+    @InjectModel(ExampleModel)
+    private example: typeof ExampleModel
   ) {}
 
   async create(exampleEntity: ExampleEntity): Promise<ExampleEntity> {

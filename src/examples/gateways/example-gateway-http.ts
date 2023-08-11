@@ -2,20 +2,20 @@ import { HttpService } from "@nestjs/axios";
 import { Inject, Injectable } from "@nestjs/common";
 import { ExampleEntity } from "../entities/example.entity";
 import { lastValueFrom } from "rxjs";
-import { ExampleGatewayInterface } from "./example-gateway-interface";
+import { ExampleGatewayInterface } from "../interfaces/example-gateway.interface";
 
 @Injectable()
 export class ExampleGatewayHttp implements ExampleGatewayInterface {
   constructor(
     @Inject(HttpService)
-    private httpService: HttpService,
+    private httpService: HttpService
   ) {}
 
   async create(example: ExampleEntity): Promise<ExampleEntity> {
     await lastValueFrom(
       this.httpService.post("examples", {
-        name: example.name,
-      }),
+        name: example.name
+      })
     );
     return example;
   }

@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { CreateExampleDto } from "./dto/create-example.dto";
 import { UpdateExampleDto } from "./dto/update-example.dto";
-import { ExampleGatewayInterface } from "./gateways/example-gateway-interface";
+import { ExampleGatewayInterface } from "./interfaces/example-gateway.interface";
 import { ExampleEntity } from "./entities/example.entity";
 import EventEmitter from "events";
 import { ExampleCreatedEvent } from "./events/example-created.event";
@@ -10,10 +10,8 @@ import { ExampleCreatedEvent } from "./events/example-created.event";
 @Injectable()
 export class ExampleService {
   constructor(
-    @Inject("ProviderExamplePersistenceGateway")
-    private provider: ExampleGatewayInterface, // Proveer a ExampleGatewaySequelize
-    @Inject("ProviderEventEmitter")
-    private eventEmitter: EventEmitter
+    @Inject("ProviderExamplePersistenceGateway") private provider: ExampleGatewayInterface, // Proveer a ExampleGatewaySequelize
+    @Inject("ProviderEventEmitter") private eventEmitter: EventEmitter
   ) {}
 
   async create(createExampleDto: CreateExampleDto) {
@@ -30,29 +28,49 @@ export class ExampleService {
     return exampleEntity;
   }
 
-  findAll() {
+  async findAll() {
     Logger.log("[ExampleService.findAll]");
 
-    return this.provider.findAll();
+    const data = await this.provider.findAll();
+    if (!data) throw new Error("Examples not found");
+
+    return {
+      success: true,
+      message: `get table examples`,
+      result: { data }
+    };
   }
 
   async findOne(id: number) {
-    Logger.log({ id });
+    Logger.log("[ExampleService.findOne]", { id });
 
-    const list = await this.provider.findById(id);
-    if (!list) {
-      throw new Error("Example not found");
-    }
-    return list;
+    const data = await this.provider.findById(id);
+    if (!data) throw new Error("Example not found");
+
+    return {
+      success: true,
+      message: `get table examples by id`,
+      result: { data }
+    };
   }
 
   update(id: number, updateExampleDto: UpdateExampleDto) {
-    console.log({ id, updateExampleDto });
-    return `This action updates a #${id} list examples`;
+    Logger.log("[ExampleService.update]", { id, updateExampleDto });
+
+    return {
+      success: true,
+      message: `updated table examples by id`,
+      result: { id, updateExampleDto }
+    };
   }
 
   remove(id: number) {
-    console.log({ id });
-    return `This action removes a #${id} list examples`;
+    Logger.log("[ExampleService.remove]", { id });
+
+    return {
+      success: true,
+      message: `deleted table examples by id`,
+      result: { id }
+    };
   }
 }

@@ -8,10 +8,7 @@ import { UpdateExampleDto } from "../dto/update-example.dto";
 
 @Injectable()
 export class ExampleGatewaySequelize implements ExampleGatewayInterface {
-  constructor(
-    @InjectModel(ExampleModel)
-    private example: typeof ExampleModel
-  ) {}
+  constructor(@InjectModel(ExampleModel) private example: typeof ExampleModel) {}
 
   async create(createExampleDto: CreateExampleDto): Promise<CreateExampleDto> {
     Logger.log("[ExampleGatewaySequelize.create]", createExampleDto);
@@ -25,8 +22,9 @@ export class ExampleGatewaySequelize implements ExampleGatewayInterface {
   async findAll(): Promise<ExampleEntity[]> {
     Logger.log("[ExampleGatewaySequelize.findAll]");
 
-    const listExample = await this.example.findAll();
-    return listExample.map((item) => new ExampleEntity(item));
+    const listExamples = await this.example.findAll();
+
+    return listExamples.map((item) => new ExampleEntity(item));
   }
 
   async findById(id: number): Promise<ExampleEntity> {
@@ -35,7 +33,6 @@ export class ExampleGatewaySequelize implements ExampleGatewayInterface {
     const exampleModel = await this.example.findByPk(id);
     if (!exampleModel) throw new Error("Example entity not found");
 
-    // return exampleModel;
     return new ExampleEntity(exampleModel);
   }
 

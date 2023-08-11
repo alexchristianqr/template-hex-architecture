@@ -15,28 +15,30 @@ export class ExampleService {
   ) {}
 
   async create(createExampleDto: CreateExampleDto) {
-    Logger.log("[ExampleService.create]");
+    Logger.log("[ExampleService.create]", { createExampleDto });
 
     // Crear
-    const exampleEntity = new ExampleEntity(createExampleDto);
-    await this.provider.create(exampleEntity);
+    const data = new ExampleEntity(createExampleDto);
+    await this.provider.create(data);
 
     // Emitir evento
-    this.eventEmitter.emit("example.created", new ExampleCreatedEvent(exampleEntity));
+    this.eventEmitter.emit("example.created", new ExampleCreatedEvent(data));
 
-    // Retornar entidad
-    return exampleEntity;
+    return {
+      success: true,
+      message: `created example`,
+      result: { data }
+    };
   }
 
   async findAll() {
     Logger.log("[ExampleService.findAll]");
 
     const data = await this.provider.findAll();
-    if (!data) throw new Error("Examples not found");
 
     return {
       success: true,
-      message: `get table examples`,
+      message: `get examples`,
       result: { data }
     };
   }
@@ -45,11 +47,10 @@ export class ExampleService {
     Logger.log("[ExampleService.findOne]", { id });
 
     const data = await this.provider.findById(id);
-    if (!data) throw new Error("Example not found");
 
     return {
       success: true,
-      message: `get table examples by id`,
+      message: `get example by id`,
       result: { data }
     };
   }
@@ -58,24 +59,22 @@ export class ExampleService {
     Logger.log("[ExampleService.update]", { id, updateExampleDto });
 
     await this.provider.update(id, updateExampleDto);
-    // if (!data) throw new Error("Example not found");
-    // const data = await this.provider.up(id);
 
     return {
       success: true,
-      message: `updated table examples by id`,
+      message: `updated example by id`,
       result: { id, updateExampleDto }
     };
   }
 
-  async remove(id: number) {
+  async delete(id: number) {
     Logger.log("[ExampleService.remove]", { id });
 
     await this.provider.delete(id);
 
     return {
       success: true,
-      message: `deleted table examples by id`,
+      message: `deleted example by id`,
       result: { id }
     };
   }

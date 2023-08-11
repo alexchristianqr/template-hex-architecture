@@ -10,7 +10,7 @@ export class CreateExampleListener {
     private provider: ExampleGatewayInterface
   ) {}
 
-  @OnEvent("list.created")
+  @OnEvent("example.created")
   async handle(event: ExampleCreatedEvent) {
     Logger.log("[CreateExampleListener.handle]", { event });
 

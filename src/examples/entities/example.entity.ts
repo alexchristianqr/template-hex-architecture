@@ -1,9 +1,16 @@
+import { CreateExampleDto } from "../dto/create-example.dto";
+
+// type structure = {
+//   id: number;
+//   name: string;
+// };
+
 export class ExampleEntity {
-  id: number;
+  id?: number;
   name: string;
 
-  constructor(name: string, id?: number) {
-    this.id = id;
-    this.name = name;
+  constructor(data: CreateExampleDto | ExampleEntity) {
+    this.id = data?.id;
+    this.name = data.name;
   }
 }

@@ -18,7 +18,7 @@ export class ExampleService {
     Logger.log("[ExampleService.create]");
 
     // Crear
-    const exampleEntity = new ExampleEntity(createExampleDto.name);
+    const exampleEntity = new ExampleEntity(createExampleDto);
     await this.provider.create(exampleEntity);
 
     // Emitir evento
@@ -54,8 +54,12 @@ export class ExampleService {
     };
   }
 
-  update(id: number, updateExampleDto: UpdateExampleDto) {
+  async update(id: number, updateExampleDto: UpdateExampleDto) {
     Logger.log("[ExampleService.update]", { id, updateExampleDto });
+
+    await this.provider.update(id, updateExampleDto);
+    // if (!data) throw new Error("Example not found");
+    // const data = await this.provider.up(id);
 
     return {
       success: true,
@@ -64,8 +68,10 @@ export class ExampleService {
     };
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     Logger.log("[ExampleService.remove]", { id });
+
+    await this.provider.delete(id);
 
     return {
       success: true,

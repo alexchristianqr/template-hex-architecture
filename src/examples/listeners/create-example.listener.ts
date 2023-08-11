@@ -6,12 +6,12 @@ import { OnEvent } from "@nestjs/event-emitter";
 @Injectable()
 export class CreateExampleListener {
   constructor(
-    @Inject("ListIntegrationGateway")
-    private exampleGatewayInterface: ExampleGatewayInterface,
+    @Inject("ProviderExampleIntegrationGateway")
+    private provider: ExampleGatewayInterface,
   ) {}
 
   @OnEvent("list.created")
   async handle(event: ExampleCreatedEvent) {
-    return this.exampleGatewayInterface.create(event.exampleEntity);
+    return this.provider.create(event.exampleEntity);
   }
 }

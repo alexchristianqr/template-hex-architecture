@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { CreateExampleDto } from "./dto/create-example.dto";
 import { UpdateExampleDto } from "./dto/update-example.dto";
 import { ExampleGatewayInterface } from "./gateways/example-gateway-interface";
@@ -10,37 +10,49 @@ import { ExampleCreatedEvent } from "./events/example-created.event";
 @Injectable()
 export class ExampleService {
   constructor(
-    @Inject("ListPersistenceGateway")
-    private exampleGatewayInterface: ExampleGatewayInterface, //porta ListGatewaySequelize
-    @Inject("EventEmitter")
-    private eventEmitter: EventEmitter,
+    @Inject("ProviderExamplePersistenceGateway")
+    private provider: ExampleGatewayInterface, // Proveer a ExampleGatewaySequelize
+    @Inject("ProviderEventEmitter")
+    private eventEmitter: EventEmitter
   ) {}
 
   async create(createExampleDto: CreateExampleDto) {
+    Logger.log("[ExampleService.create]");
+
+    // Crear
     const exampleEntity = new ExampleEntity(createExampleDto.name);
-    await this.exampleGatewayInterface.create(exampleEntity);
+    await this.provider.create(exampleEntity);
+
+    // Emitir evento
     this.eventEmitter.emit("example.created", new ExampleCreatedEvent(exampleEntity));
+
+    // Retornar entidad
     return exampleEntity;
   }
 
   findAll() {
-    return this.exampleGatewayInterface.findAll();
+    Logger.log("[ExampleService.findAll]");
+
+    return this.provider.findAll();
   }
 
   async findOne(id: number) {
-    const list = await this.exampleGatewayInterface.findById(id);
+    Logger.log({ id });
+
+    const list = await this.provider.findById(id);
     if (!list) {
-      throw new Error("List not found");
+      throw new Error("Example not found");
     }
     return list;
   }
 
   update(id: number, updateExampleDto: UpdateExampleDto) {
     console.log({ id, updateExampleDto });
-    return `This action updates a #${id} list`;
+    return `This action updates a #${id} list examples`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} list`;
+    console.log({ id });
+    return `This action removes a #${id} list examples`;
   }
 }

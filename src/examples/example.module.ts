@@ -6,7 +6,6 @@ import { ExampleGatewayHttp } from "./gateways/example-gateway-http";
 import { ExampleGatewaySequelize } from "./gateways/example-gateway-sequelize";
 import { ExampleController } from "./example.controller";
 import { ExampleService } from "./example.service";
-//import { CreateListInCrmListener } from './listeners/create-list-in-crm.listener';
 import { BullModule } from "@nestjs/bull";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { CreateExampleJob } from "./jobs/create-example.job";
@@ -16,33 +15,32 @@ import { PublishExampleCreatedListener } from "./listeners/publish-example-creat
   imports: [
     SequelizeModule.forFeature([Example]),
     HttpModule.register({
-      baseURL: "http://localhost:8000",
+      baseURL: "http://localhost:8000"
     }),
     BullModule.registerQueue({
       name: "default",
-      defaultJobOptions: { attempts: 1 },
-    }),
+      defaultJobOptions: { attempts: 1 }
+    })
   ],
   controllers: [ExampleController],
   providers: [
     ExampleService,
     ExampleGatewaySequelize,
     ExampleGatewayHttp,
-    //CreateListInCrmListener,
     PublishExampleCreatedListener,
     CreateExampleJob,
     {
-      provide: "ListPersistenceGateway",
-      useExisting: ExampleGatewaySequelize,
+      provide: "ProviderExamplePersistenceGateway",
+      useExisting: ExampleGatewaySequelize
     },
     {
-      provide: "ListIntegrationGateway",
-      useExisting: ExampleGatewayHttp,
+      provide: "ProviderExampleIntegrationGateway",
+      useExisting: ExampleGatewayHttp
     },
     {
-      provide: "EventEmitter",
-      useExisting: EventEmitter2,
-    },
-  ],
+      provide: "ProviderEventEmitter",
+      useExisting: EventEmitter2
+    }
+  ]
 })
 export class ExampleModule {}

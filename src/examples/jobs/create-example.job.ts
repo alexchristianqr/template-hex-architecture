@@ -7,16 +7,14 @@ import { ExampleGatewayInterface } from "../gateways/example-gateway-interface";
 @Processor()
 export class CreateExampleJob {
   constructor(
-    @Inject("ListIntegrationGateway")
-    private exampleGatewayInterface: ExampleGatewayInterface,
+    @Inject("ProviderExampleIntegrationGateway")
+    private provider: ExampleGatewayInterface,
   ) {}
 
-  @Process("list.created")
+  @Process("example.created")
   async handle(job: Job<ExampleCreatedEvent>) {
-    console.log("job processando...");
-    console.log(job.data);
     const event = job.data;
-    await this.exampleGatewayInterface.create(event.exampleEntity);
+    await this.provider.create(event.exampleEntity);
   }
 
   @OnQueueFailed({ name: "example.created" })

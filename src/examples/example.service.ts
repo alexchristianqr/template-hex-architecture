@@ -26,8 +26,8 @@ export class ExampleService {
 
     return {
       success: true,
-      message: `created example`,
-      result: { data }
+      message: "example created",
+      result: data
     };
   }
 
@@ -38,8 +38,8 @@ export class ExampleService {
 
     return {
       success: true,
-      message: `get examples`,
-      result: { data }
+      message: "get examples",
+      result: data
     };
   }
 
@@ -50,8 +50,8 @@ export class ExampleService {
 
     return {
       success: true,
-      message: `get example by id`,
-      result: { data }
+      message: "get example by id",
+      result: data
     };
   }
 
@@ -62,8 +62,8 @@ export class ExampleService {
 
     return {
       success: true,
-      message: `updated example by id`,
-      result: { id, updateExampleDto }
+      message: "example updated",
+      result: { id, ...updateExampleDto }
     };
   }
 
@@ -74,7 +74,7 @@ export class ExampleService {
 
     return {
       success: true,
-      message: `deleted example by id`,
+      message: "example deleted",
       result: { id }
     };
   }

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Logger } from "@nest
 import { ExampleService } from "./example.service";
 import { CreateExampleDto } from "./dto/create-example.dto";
 import { UpdateExampleDto } from "./dto/update-example.dto";
+import { Error } from "sequelize";
 
 @Controller("examples")
 export class ExampleController {

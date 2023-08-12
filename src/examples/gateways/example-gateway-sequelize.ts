@@ -2,7 +2,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { ExampleModel } from "../models/example.model";
 import { ExampleGatewayInterface } from "../interfaces/example-gateway.interface";
 import { ExampleEntity } from "../entities/example.entity";
-import { Injectable, Logger } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 import { CreateExampleDto } from "../dto/create-example.dto";
 import { UpdateExampleDto } from "../dto/update-example.dto";
 
@@ -22,25 +22,25 @@ export class ExampleGatewaySequelize implements ExampleGatewayInterface {
   async findAll(): Promise<ExampleEntity[]> {
     Logger.log("[ExampleGatewaySequelize.findAll]");
 
-    const listExamples = await this.example.findAll();
+    const examples = await this.example.findAll();
 
-    return listExamples.map((item) => new ExampleEntity(item));
+    return examples.map((item) => new ExampleEntity(item));
   }
 
   async findById(id: number): Promise<ExampleEntity> {
     Logger.log("[ExampleGatewaySequelize.findById]", { id });
 
-    const exampleModel = await this.example.findByPk(id);
-    if (!exampleModel) throw new Error("Example entity not found");
+    const example = await this.example.findByPk(id);
+    if (!example) throw new HttpException("Example entity not found", HttpStatus.BAD_REQUEST);
 
-    return new ExampleEntity(exampleModel);
+    return new ExampleEntity(example);
   }
 
   async update(id: number, updateExampleDto: UpdateExampleDto): Promise<void> {
     Logger.log("[ExampleGatewaySequelize.update]", { id });
 
     const exampleModel = await this.example.findByPk(id);
-    if (!exampleModel) throw new Error("Example entity not found");
+    if (!exampleModel) throw new HttpException("Example entity not found", HttpStatus.BAD_REQUEST);
 
     await exampleModel.update(updateExampleDto);
   }
@@ -49,7 +49,7 @@ export class ExampleGatewaySequelize implements ExampleGatewayInterface {
     Logger.log("[ExampleGatewaySequelize.delete]", { id });
 
     const exampleModel = await this.example.findByPk(id);
-    if (!exampleModel) throw new Error("Example entity not found");
+    if (!exampleModel) throw new HttpException("Example entity not found", HttpStatus.BAD_REQUEST);
 
     await exampleModel.destroy();
   }

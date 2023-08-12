@@ -58,7 +58,11 @@ export class ExampleService {
   async update(id: number, updateExampleDto: UpdateExampleDto) {
     Logger.log("[ExampleService.update]", { id, updateExampleDto });
 
+    // Actualizar
     await this.provider.update(id, updateExampleDto);
+
+    // Emitir evento
+    this.eventEmitter.emit("example.updated", new ExampleCreatedEvent(updateExampleDto));
 
     return {
       success: true,

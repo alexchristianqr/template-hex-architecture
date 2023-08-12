@@ -6,5 +6,5 @@ export class CreateExampleDto extends PartialType(ExampleEntity) {
   @IsNotEmpty({
     message: "El campo [name] no puede estar vacío"
   })
-  name: string;
+  name?: string;
 }

@@ -8,29 +8,23 @@ import { CreateExampleDto } from "../dto/create-example.dto";
 
 @Injectable()
 export class ExampleServiceHttpGateway implements ExampleGatewayInterface {
-  private baseUrl = `examples`;
+  private url = `examples`;
 
-  constructor(
-    @Inject(HttpService)
-    private httpService: HttpService
-  ) {}
+  constructor(@Inject(HttpService) private httpService: HttpService) {}
 
   async create(createExampleDto: CreateExampleDto): Promise<CreateExampleDto> {
     Logger.log("[ExampleGatewayHttp.create]", createExampleDto);
 
-    await lastValueFrom(
-      this.httpService.post("examples", {
-        name: createExampleDto.name
-      })
-    );
+    const data = createExampleDto;
+    await lastValueFrom(this.httpService.post(`${this.url}`, data));
 
-    return createExampleDto;
+    return data;
   }
 
   async findAll(): Promise<ExampleEntity[]> {
     Logger.log("[ExampleGatewayHttp.findAll]");
 
-    const { data } = await lastValueFrom(this.httpService.get<any[]>(`${this.baseUrl}`));
+    const { data } = await lastValueFrom(this.httpService.get<any[]>(`${this.url}`));
 
     return data.map((item) => new ExampleEntity(item));
   }
@@ -38,7 +32,7 @@ export class ExampleServiceHttpGateway implements ExampleGatewayInterface {
   async findById(id: number): Promise<ExampleEntity> {
     Logger.log("[ExampleGatewayHttp.findById]", { id });
 
-    const { data } = await lastValueFrom(this.httpService.get<any>(`${this.baseUrl}/${id}`));
+    const { data } = await lastValueFrom(this.httpService.get<any>(`${this.url}/${id}`));
 
     return new ExampleEntity(data);
   }
@@ -46,12 +40,12 @@ export class ExampleServiceHttpGateway implements ExampleGatewayInterface {
   async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
     Logger.log("[ExampleGatewayHttp.update]", { id, updateExampleDto });
 
-    return lastValueFrom(this.httpService.put<any>(`examples/${id}`));
+    return lastValueFrom(this.httpService.put<any>(`${this.url}/${id}`));
   }
 
   async delete(id: number): Promise<any> {
     Logger.log("[ExampleGatewayHttp.delete]", { id });
 
-    return lastValueFrom(this.httpService.delete<any>(`examples/${id}`));
+    return lastValueFrom(this.httpService.delete<any>(`${this.url}/${id}`));
   }
 }

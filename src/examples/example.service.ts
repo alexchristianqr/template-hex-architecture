@@ -10,7 +10,15 @@ import { ExampleCreatedEvent } from "./events/example-created.event";
 @Injectable()
 export class ExampleService {
   constructor(
-    @Inject("ProviderExamplePersistenceGateway") private provider: ExampleGatewayInterface, // Proveer a ExampleGatewaySequelize
+    /* Proveer clase ExampleServiceHttpGateway como servicio */
+    // @Inject("ProviderExampleServiceHttpGateway") private provider: ExampleGatewayInterface,
+
+    /* Proveer clase ExampleServiceInMemoryGateway como servicio */
+    @Inject("ProviderExampleServiceInMemoryGateway") private provider: ExampleGatewayInterface,
+
+    /* Proveer clase ExampleServiceSequelizeGateway como servicio */
+    // @Inject("ProviderExampleServiceSequelizeGateway") private provider: ExampleGatewayInterface,
+
     @Inject("ProviderEventEmitter") private eventEmitter: EventEmitter
   ) {}
 

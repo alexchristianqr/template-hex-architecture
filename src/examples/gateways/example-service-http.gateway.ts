@@ -7,7 +7,7 @@ import { UpdateExampleDto } from "../dto/update-example.dto";
 import { CreateExampleDto } from "../dto/create-example.dto";
 
 @Injectable()
-export class ExampleGatewayHttp implements ExampleGatewayInterface {
+export class ExampleServiceHttpGateway implements ExampleGatewayInterface {
   constructor(
     @Inject(HttpService)
     private httpService: HttpService

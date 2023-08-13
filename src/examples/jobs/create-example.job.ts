@@ -7,8 +7,14 @@ import { ExampleGatewayInterface } from "../interfaces/example-gateway.interface
 @Processor()
 export class CreateExampleJob {
   constructor(
-    @Inject("ProviderExampleIntegrationGateway")
-    private provider: ExampleGatewayInterface
+    /* Proveer clase ExampleServiceHttpGateway como servicio */
+    // @Inject("ProviderExampleServiceHttpGateway") private provider: ExampleGatewayInterface,
+
+    /* Proveer clase ExampleServiceSequelizeGateway como servicio */
+    // @Inject("ProviderExampleServiceSequelizeGateway") private provider: ExampleGatewayInterface,
+
+    /* Proveer clase ExampleServiceInMemoryGateway como servicio */
+    @Inject("ProviderExampleServiceInMemoryGateway") private provider: ExampleGatewayInterface
   ) {}
 
   @Process("example.created")

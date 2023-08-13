@@ -4,7 +4,7 @@ import { UpdateExampleDto } from "../dto/update-example.dto";
 import { Logger } from "@nestjs/common";
 import { CreateExampleDto } from "../dto/create-example.dto";
 
-export class ExampleGatewayInMemory implements ExampleGatewayInterface {
+export class ExampleServiceInMemoryGateway implements ExampleGatewayInterface {
   items: ExampleEntity[] = [];
 
   async create(createExampleDto: CreateExampleDto): Promise<CreateExampleDto> {

@@ -8,6 +8,8 @@ import { CreateExampleDto } from "../dto/create-example.dto";
 
 @Injectable()
 export class ExampleServiceHttpGateway implements ExampleGatewayInterface {
+  private baseUrl = `examples`;
+
   constructor(
     @Inject(HttpService)
     private httpService: HttpService
@@ -28,7 +30,7 @@ export class ExampleServiceHttpGateway implements ExampleGatewayInterface {
   async findAll(): Promise<ExampleEntity[]> {
     Logger.log("[ExampleGatewayHttp.findAll]");
 
-    const { data } = await lastValueFrom(this.httpService.get<any[]>("examples"));
+    const { data } = await lastValueFrom(this.httpService.get<any[]>(`${this.baseUrl}`));
 
     return data.map((item) => new ExampleEntity(item));
   }
@@ -36,20 +38,20 @@ export class ExampleServiceHttpGateway implements ExampleGatewayInterface {
   async findById(id: number): Promise<ExampleEntity> {
     Logger.log("[ExampleGatewayHttp.findById]", { id });
 
-    const { data } = await lastValueFrom(this.httpService.get<any>(`examples/${id}`));
+    const { data } = await lastValueFrom(this.httpService.get<any>(`${this.baseUrl}/${id}`));
 
     return new ExampleEntity(data);
   }
 
-  delete(id: number): Promise<void> {
-    Logger.log("[ExampleGatewayHttp.delete]", { id });
-
-    return Promise.resolve(undefined);
-  }
-
-  update(id: number, updateExampleDto: UpdateExampleDto): Promise<void> {
+  async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
     Logger.log("[ExampleGatewayHttp.update]", { id, updateExampleDto });
 
-    return Promise.resolve(undefined);
+    return lastValueFrom(this.httpService.put<any>(`examples/${id}`));
+  }
+
+  async delete(id: number): Promise<any> {
+    Logger.log("[ExampleGatewayHttp.delete]", { id });
+
+    return lastValueFrom(this.httpService.delete<any>(`examples/${id}`));
   }
 }

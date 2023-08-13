@@ -80,7 +80,7 @@ export class ExampleService {
   }
 
   async delete(id: number) {
-    Logger.log("[ExampleService.remove]", { id });
+    Logger.log("[ExampleService.delete]", { id });
 
     await this.provider.delete(id);
 

@@ -1,7 +1,7 @@
 import { ExampleEntity } from "../entities/example.entity";
 import { ExampleGatewayInterface } from "../interfaces/example-gateway.interface";
 import { UpdateExampleDto } from "../dto/update-example.dto";
-import { Logger } from "@nestjs/common";
+import { HttpException, HttpStatus, Logger } from "@nestjs/common";
 import { CreateExampleDto } from "../dto/create-example.dto";
 
 export class ExampleServiceInMemoryGateway implements ExampleGatewayInterface {
@@ -26,16 +26,22 @@ export class ExampleServiceInMemoryGateway implements ExampleGatewayInterface {
     Logger.log("[ExampleGatewayInMemory.findById]");
 
     const data = this.items.find((item) => item.id === id);
-    if (!data) throw new Error("Example entity not found");
+    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
 
     return data;
   }
 
-  delete(id: number): Promise<void> {
-    return Promise.resolve(undefined);
+  async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
+    Logger.log("[ExampleGatewayInMemory.update]", { id, updateExampleDto });
+
+    let data = this.items.find((item) => item.id === id);
+    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
+    data.name = updateExampleDto.name;
   }
 
-  update(id: number, updateExampleDto: UpdateExampleDto): Promise<void> {
-    return Promise.resolve(undefined);
+  async delete(id: number): Promise<any> {
+    Logger.log("[ExampleGatewayInMemory.delete]", { id });
+
+    this.items = this.items.filter((item) => item.id !== id);
   }
 }

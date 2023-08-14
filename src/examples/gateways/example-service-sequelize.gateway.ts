@@ -19,7 +19,7 @@ export class ExampleServiceSequelizeGateway implements ExampleGatewayInterface {
     return createExampleDto;
   }
 
-  async findAll(): Promise<ExampleEntity[]> {
+  async findAll(): Promise<Array<ExampleEntity>> {
     Logger.log("[ExampleGatewaySequelize.findAll]");
 
     const examples = await this.example.findAll();

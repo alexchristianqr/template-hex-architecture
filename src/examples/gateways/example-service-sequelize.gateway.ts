@@ -10,8 +10,8 @@ import { UpdateExampleDto } from "../dto/update-example.dto";
 export class ExampleServiceSequelizeGateway implements ExampleGatewayInterface {
   constructor(@InjectModel(ExampleModel) private example: typeof ExampleModel) {}
 
-  async create(createExampleDto: CreateExampleDto): Promise<CreateExampleDto> {
-    Logger.log("[ExampleGatewaySequelize.create]", createExampleDto);
+  async create(createExampleDto: CreateExampleDto): Promise<any> {
+    Logger.log("[ExampleServiceSequelizeGateway.create]", createExampleDto);
 
     const newExample = await this.example.create(createExampleDto);
     createExampleDto.id = newExample.id; // Set new ID
@@ -20,14 +20,14 @@ export class ExampleServiceSequelizeGateway implements ExampleGatewayInterface {
   }
 
   async findAll(): Promise<Array<ExampleEntity>> {
-    Logger.log("[ExampleGatewaySequelize.findAll]");
+    Logger.log("[ExampleServiceSequelizeGateway.findAll]");
 
     const examples = await this.example.findAll();
     return examples.map((item) => new ExampleEntity(item));
   }
 
   async findById(id: number): Promise<ExampleEntity> {
-    Logger.log("[ExampleGatewaySequelize.findById]", { id });
+    Logger.log("[ExampleServiceSequelizeGateway.findById]", { id });
 
     const example = await this.example.findByPk(id);
     if (!example) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
@@ -36,7 +36,7 @@ export class ExampleServiceSequelizeGateway implements ExampleGatewayInterface {
   }
 
   async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
-    Logger.log("[ExampleGatewaySequelize.update]", { id, updateExampleDto });
+    Logger.log("[ExampleServiceSequelizeGateway.update]", { id, updateExampleDto });
 
     const exampleModel = await this.example.findByPk(id);
     if (!exampleModel) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
@@ -45,7 +45,7 @@ export class ExampleServiceSequelizeGateway implements ExampleGatewayInterface {
   }
 
   async delete(id: number): Promise<any> {
-    Logger.log("[ExampleGatewaySequelize.delete]", { id });
+    Logger.log("[ExampleServiceSequelizeGateway.delete]", { id });
 
     const exampleModel = await this.example.findByPk(id);
     if (!exampleModel) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);

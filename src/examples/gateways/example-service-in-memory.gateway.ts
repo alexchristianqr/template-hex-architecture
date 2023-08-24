@@ -7,8 +7,8 @@ import { CreateExampleDto } from "../dto/create-example.dto";
 export class ExampleServiceInMemoryGateway implements ExampleGatewayInterface {
   items: ExampleEntity[] = [];
 
-  async create(createExampleDto: CreateExampleDto): Promise<CreateExampleDto> {
-    Logger.log("[ExampleGatewayInMemory.create]", createExampleDto);
+  async create(createExampleDto: CreateExampleDto): Promise<any> {
+    Logger.log("[ExampleServiceInMemoryGateway.create]", createExampleDto);
 
     createExampleDto.id = this.items.length + 1;
     this.items.push(createExampleDto);
@@ -17,13 +17,13 @@ export class ExampleServiceInMemoryGateway implements ExampleGatewayInterface {
   }
 
   async findAll(): Promise<ExampleEntity[]> {
-    Logger.log("[ExampleGatewayInMemory.findAll]");
+    Logger.log("[ExampleServiceInMemoryGateway.findAll]");
 
     return this.items;
   }
 
   async findById(id: number): Promise<ExampleEntity> {
-    Logger.log("[ExampleGatewayInMemory.findById]");
+    Logger.log("[ExampleServiceInMemoryGateway.findById]");
 
     const data = this.items.find((item) => item.id === id);
     if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
@@ -32,7 +32,7 @@ export class ExampleServiceInMemoryGateway implements ExampleGatewayInterface {
   }
 
   async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
-    Logger.log("[ExampleGatewayInMemory.update]", { id, updateExampleDto });
+    Logger.log("[ExampleServiceInMemoryGateway.update]", { id, updateExampleDto });
 
     let data = this.items.find((item) => item.id === id);
     if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ export class ExampleServiceInMemoryGateway implements ExampleGatewayInterface {
   }
 
   async delete(id: number): Promise<any> {
-    Logger.log("[ExampleGatewayInMemory.delete]", { id });
+    Logger.log("[ExampleServiceInMemoryGateway.delete]", { id });
 
     this.items = this.items.filter((item) => item.id !== id);
   }

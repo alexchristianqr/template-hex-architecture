@@ -1,20 +1,27 @@
-import { HttpModule } from "@nestjs/axios";
-import { Module } from "@nestjs/common";
-import { SequelizeModule } from "@nestjs/sequelize";
-import { ExampleModel } from "./models/example.model";
-import { ExampleServiceHttpGateway } from "./gateways/example-service-http.gateway";
-import { ExampleServiceSequelizeGateway } from "./gateways/example-service-sequelize.gateway";
-import { ExampleController } from "./example.controller";
-import { ExampleService } from "./example.service";
-import { BullModule } from "@nestjs/bull";
-import { EventEmitter2 } from "@nestjs/event-emitter";
-import { CreateExampleJob } from "./jobs/create-example.job";
-import { ExampleCreatedListener } from "./listeners/example-created.listener";
-import { ExampleServiceInMemoryGateway } from "./gateways/example-service-in-memory.gateway";
+import { Module } from "@nestjs/common"
+import { SequelizeModule } from "@nestjs/sequelize"
+import { ExampleModel } from "./domain/models/example.model"
+import { ExampleHttpRepository } from "./infrastructure/repositories/example-http.repository"
+import { ExampleSequelizeRepository } from "./infrastructure/repositories/example-sequelize.repository"
+import { ExampleController } from "./application/controllers/example.controller"
+import { ExampleService } from "./domain/services/example.service"
+import { BullModule } from "@nestjs/bull"
+import { EventEmitter2, EventEmitterModule } from "@nestjs/event-emitter"
+import { CreateExampleJob } from "./domain/jobs/create-example.job"
+import { ExampleCreatedListener } from "./domain/listeners/example-created.listener"
+import { ExampleInMemoryRepository } from "./infrastructure/repositories/example-in-memory.repository"
+import { HttpModule } from "@nestjs/axios"
 
 @Module({
   imports: [
     SequelizeModule.forFeature([ExampleModel]),
+    SequelizeModule.forRoot({
+      dialect: "sqlite",
+      host: ":memory:",
+      autoLoadModels: true
+    }),
+    EventEmitterModule.forRoot(),
+
     HttpModule.register({
       baseURL: "http://localhost:8000"
     }),
@@ -26,22 +33,22 @@ import { ExampleServiceInMemoryGateway } from "./gateways/example-service-in-mem
   controllers: [ExampleController],
   providers: [
     ExampleService,
-    ExampleServiceSequelizeGateway,
-    ExampleServiceInMemoryGateway,
-    ExampleServiceHttpGateway,
+    ExampleSequelizeRepository,
+    ExampleInMemoryRepository,
+    ExampleHttpRepository,
     ExampleCreatedListener,
     CreateExampleJob,
     {
       provide: "ProviderExampleServiceInMemoryGateway",
-      useExisting: ExampleServiceInMemoryGateway
+      useExisting: ExampleInMemoryRepository
     },
     {
       provide: "ProviderExampleServiceSequelizeGateway",
-      useExisting: ExampleServiceSequelizeGateway
+      useExisting: ExampleSequelizeRepository
     },
     {
       provide: "ProviderExampleServiceHttpGateway",
-      useExisting: ExampleServiceHttpGateway
+      useExisting: ExampleHttpRepository
     },
     {
       provide: "ProviderEventEmitter",

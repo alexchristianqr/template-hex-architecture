@@ -1,11 +1,12 @@
 import { ExampleEntity } from "../../domain/entities/example.entity"
 import { ExampleOutputRepository } from "../../domain/ports/output/example-output.repository"
 import { UpdateExampleDto } from "../../application/dto/update-example.dto"
-import { HttpException, HttpStatus, Logger } from "@nestjs/common"
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common"
 import { CreateExampleDto } from "../../application/dto/create-example.dto"
 
+@Injectable()
 export class ExampleInMemoryRepository implements ExampleOutputRepository {
-  items: ExampleEntity[] = []
+  items: Array<ExampleEntity> = []
 
   async create(createExampleDto: CreateExampleDto): Promise<any> {
     Logger.log("[ExampleServiceInMemoryGateway.create]", createExampleDto)

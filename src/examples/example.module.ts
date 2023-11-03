@@ -2,14 +2,12 @@ import { Module } from "@nestjs/common"
 import { SequelizeModule } from "@nestjs/sequelize"
 import { ExampleModel } from "./domain/models/example.model"
 import { ExampleHttpRepository } from "./infrastructure/repositories/example-http.repository"
-import { ExampleSequelizeRepository } from "./infrastructure/repositories/example-sequelize.repository"
 import { ExampleController } from "./application/controllers/example.controller"
 import { ExampleService } from "./domain/services/example.service"
 import { BullModule } from "@nestjs/bull"
 import { EventEmitter2, EventEmitterModule } from "@nestjs/event-emitter"
 import { CreateExampleJob } from "./domain/jobs/create-example.job"
 import { ExampleCreatedListener } from "./domain/listeners/example-created.listener"
-import { ExampleInMemoryRepository } from "./infrastructure/repositories/example-in-memory.repository"
 import { HttpModule } from "@nestjs/axios"
 
 @Module({
@@ -21,10 +19,7 @@ import { HttpModule } from "@nestjs/axios"
       autoLoadModels: true
     }),
     EventEmitterModule.forRoot(),
-
-    HttpModule.register({
-      baseURL: "http://localhost:8000"
-    }),
+    HttpModule.register({}),
     BullModule.registerQueue({
       name: "default",
       defaultJobOptions: { attempts: 1 }
@@ -33,22 +28,12 @@ import { HttpModule } from "@nestjs/axios"
   controllers: [ExampleController],
   providers: [
     ExampleService,
-    ExampleSequelizeRepository,
-    ExampleInMemoryRepository,
     ExampleHttpRepository,
     ExampleCreatedListener,
     CreateExampleJob,
     {
-      provide: "ProviderExampleServiceInMemoryGateway",
-      useExisting: ExampleInMemoryRepository
-    },
-    {
-      provide: "ProviderExampleServiceSequelizeGateway",
-      useExisting: ExampleSequelizeRepository
-    },
-    {
-      provide: "ProviderExampleServiceHttpGateway",
-      useExisting: ExampleHttpRepository
+      provide: "ProviderExampleRepository",
+      useExisting: ExampleHttpRepository // ExampleInMemoryRepository, ExampleSequelizeRepository
     },
     {
       provide: "ProviderEventEmitter",

@@ -6,16 +6,7 @@ import { ExampleOutputRepository } from "../ports/output/example-output.reposito
 
 @Processor()
 export class CreateExampleJob {
-  constructor(
-    /* Proveer clase ExampleServiceHttpGateway como servicio */
-    // @Inject("ProviderExampleServiceHttpGateway") private provider: ExampleGatewayInterface,
-
-    /* Proveer clase ExampleServiceSequelizeGateway como servicio */
-    // @Inject("ProviderExampleServiceSequelizeGateway") private provider: ExampleGatewayInterface,
-
-    /* Proveer clase ExampleServiceInMemoryGateway como servicio */
-    @Inject("ProviderExampleServiceInMemoryGateway") private provider: ExampleOutputRepository
-  ) {}
+  constructor(@Inject("ProviderExampleRepository") private provider: ExampleOutputRepository) {}
 
   @Process("example.created")
   async handle(job: Job<ExampleCreatedEvent>) {

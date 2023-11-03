@@ -10,15 +10,7 @@ import { ExampleInputService } from "../ports/input/example-input.service"
 @Injectable()
 export class ExampleService implements ExampleInputService {
   constructor(
-    /* Proveer clase ExampleServiceHttpGateway como servicio */
-    // @Inject("ProviderExampleServiceHttpGateway") private provider: ExampleGatewayInterface,
-
-    /* Proveer clase ExampleServiceInMemoryGateway como servicio */
-    @Inject("ProviderExampleServiceInMemoryGateway") private provider: ExampleOutputRepository,
-
-    /* Proveer clase ExampleServiceSequelizeGateway como servicio */
-    // @Inject("ProviderExampleServiceSequelizeGateway") private provider: ExampleGatewayInterface,
-
+    @Inject("ProviderExampleRepository") private provider: ExampleOutputRepository,
     @Inject("ProviderEventEmitter") private eventEmitter: EventEmitter
   ) {}
 

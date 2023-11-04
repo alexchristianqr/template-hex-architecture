@@ -17,14 +17,14 @@ export class ExampleLocalRepository implements ExampleOutputRepository {
     return createExampleDto
   }
 
-  async findAll(): Promise<ExampleEntity[]> {
-    Logger.log("[ExampleLocalRepository.findAll]")
+  async getAll(): Promise<ExampleEntity[]> {
+    Logger.log("[ExampleLocalRepository.getAll]")
 
     return this.items
   }
 
-  async findById(id: number): Promise<ExampleEntity> {
-    Logger.log("[ExampleLocalRepository.findById]")
+  async getById(id: number): Promise<ExampleEntity> {
+    Logger.log("[ExampleLocalRepository.getById]")
 
     const data = this.items.find((item) => item.id === id)
     if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST)

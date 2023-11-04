@@ -1,7 +1,7 @@
-export abstract class ExampleInputService {
+export abstract class ExampleInputUsecase {
   abstract create(data: any): Promise<any>
-  abstract findAll(): Promise<any>
-  abstract findById(id: number): Promise<any>
+  abstract getAll(): Promise<any>
+  abstract getById(id: number): Promise<any>
   abstract update(id: number, data: any): Promise<any>
   abstract delete(id: number): Promise<any>
 }

@@ -1,13 +1,14 @@
 import { Column, Model, Table } from "../../../core"
 
-export type ExampleAttributes = {
+interface IExample {
   name: string
+  age: string
 }
 
 @Table({
   modelName: "examples"
 })
-export class ExampleModel extends Model<ExampleAttributes> {
+export class ExampleModel extends Model<IExample> {
   @Column
   name: string
 }

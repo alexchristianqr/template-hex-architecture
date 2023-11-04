@@ -3,7 +3,7 @@ import { ExampleModel } from "./domain/models/example.model"
 import { ExampleController } from "./application/controllers/example.controller"
 import { ExampleService } from "./domain/services/example.service"
 import { CreateExampleJob } from "./domain/jobs/create-example.job"
-import { ExampleCreatedListener } from "./domain/listeners/example-created.listener"
+import { ExampleCreatedListener } from "./infrastructure/listeners/example-created.listener"
 import { ExampleLocalRepository } from "./infrastructure/repositories/example-local.repository"
 
 @Module({

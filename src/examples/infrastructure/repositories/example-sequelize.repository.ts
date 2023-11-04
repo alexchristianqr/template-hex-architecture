@@ -18,15 +18,15 @@ export class ExampleSequelizeRepository implements ExampleOutputRepository {
     return createExampleDto
   }
 
-  async findAll(): Promise<Array<ExampleEntity>> {
-    Logger.log("[ExampleSequelizeRepository.findAll]")
+  async getAll(): Promise<Array<ExampleEntity>> {
+    Logger.log("[ExampleSequelizeRepository.getAll]")
 
     const examples = await this.example.findAll()
-    return examples.map((item) => new ExampleEntity(item))
+    return examples.map((item: ExampleEntity) => new ExampleEntity(item))
   }
 
-  async findById(id: number): Promise<ExampleEntity> {
-    Logger.log("[ExampleSequelizeRepository.findById]", { id })
+  async getById(id: number): Promise<ExampleEntity> {
+    Logger.log("[ExampleSequelizeRepository.getById]", { id })
 
     const example = await this.example.findByPk(id)
     if (!example) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST)

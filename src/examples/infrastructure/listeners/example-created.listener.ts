@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnEvent, InjectQueue, Queue } from "../../../core"
-import { ExampleCreatedEvent } from "../events/example-created.event"
+import { ExampleCreatedEvent } from "../../domain/events/example-created.event"
 
 @Injectable()
 export class ExampleCreatedListener {

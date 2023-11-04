@@ -5,24 +5,24 @@ import { UpdateExampleDto } from "../../application/dto/update-example.dto"
 import { ExampleOutputRepository } from "../ports/output/example-output.repository"
 import { ExampleEntity } from "../entities/example.entity"
 import { ExampleCreatedEvent } from "../events/example-created.event"
-import { ExampleInputService } from "../ports/input/example-input.service"
+import { ExampleInputUsecase } from "../ports/input/example-input.usecase"
 
 @Injectable()
-export class ExampleService implements ExampleInputService {
+export class ExampleService implements ExampleInputUsecase {
   constructor(
     @Inject("ProviderExampleRepository") private provider: ExampleOutputRepository,
     @Inject("ProviderEventEmitter") private eventEmitter: EventEmitter
   ) {}
 
-  async create(createExampleDto: CreateExampleDto): Promise<any> {
-    Logger.log("[ExampleService.create]", { createExampleDto })
+  async create(payload: CreateExampleDto): Promise<any> {
+    Logger.log("[ExampleService.create]", { payload })
 
     // Crear
-    const data = new ExampleEntity(createExampleDto)
+    const data = new ExampleEntity(payload)
     await this.provider.create(data)
 
     // Emitir evento
-    this.eventEmitter.emit("example.created", new ExampleCreatedEvent(data))
+    this.eventEmitter.emit("example.created", new ExampleCreatedEvent(payload))
 
     return {
       success: true,
@@ -31,10 +31,10 @@ export class ExampleService implements ExampleInputService {
     }
   }
 
-  async findAll(): Promise<any> {
-    Logger.log("[ExampleService.findAll]")
+  async getAll(): Promise<any> {
+    Logger.log("[ExampleService.getAll]")
 
-    const data = await this.provider.findAll()
+    const data = await this.provider.getAll()
 
     return {
       success: true,
@@ -43,10 +43,10 @@ export class ExampleService implements ExampleInputService {
     }
   }
 
-  async findById(id: number): Promise<any> {
-    Logger.log("[ExampleService.findOne]", { id })
+  async getById(id: number): Promise<any> {
+    Logger.log("[ExampleService.getById]", { id })
 
-    const data = await this.provider.findById(id)
+    const data = await this.provider.getById(id)
 
     return {
       success: true,
@@ -55,19 +55,19 @@ export class ExampleService implements ExampleInputService {
     }
   }
 
-  async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
-    Logger.log("[ExampleService.update]", { id, updateExampleDto })
+  async update(id: number, payload: UpdateExampleDto): Promise<any> {
+    Logger.log("[ExampleService.update]", { id, payload })
 
     // Actualizar
-    await this.provider.update(id, updateExampleDto)
+    const data = await this.provider.update(id, payload)
 
     // Emitir evento
-    this.eventEmitter.emit("example.updated", new ExampleCreatedEvent(updateExampleDto))
+    this.eventEmitter.emit("example.updated", new ExampleCreatedEvent(payload))
 
     return {
       success: true,
       message: "example updated",
-      result: { id, ...updateExampleDto }
+      result: { id, ...data }
     }
   }
 

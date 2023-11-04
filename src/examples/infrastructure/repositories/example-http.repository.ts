@@ -20,8 +20,8 @@ export class ExampleHttpRepository implements ExampleOutputRepository {
     return data
   }
 
-  async findAll(): Promise<Array<ExampleEntity>> {
-    Logger.log("[ExampleHttpRepository.findAll]")
+  async getAll(): Promise<Array<ExampleEntity>> {
+    Logger.log("[ExampleHttpRepository.getAll]")
 
     const url = `${this.url}`
     const { data } = await firstValueFrom(
@@ -36,8 +36,8 @@ export class ExampleHttpRepository implements ExampleOutputRepository {
     return data
   }
 
-  async findById(id: number): Promise<ExampleEntity> {
-    Logger.log("[ExampleHttpRepository.findById]", { id })
+  async getById(id: number): Promise<ExampleEntity> {
+    Logger.log("[ExampleHttpRepository.getById]", { id })
 
     const url = `${this.url}/${id}`
     const { data } = await lastValueFrom(this.httpService.get<any>(url))

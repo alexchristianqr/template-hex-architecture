@@ -4,14 +4,14 @@ import { ExampleOutputRepository } from "../ports/output/example-output.reposito
 
 @Processor()
 export class CreateExampleJob {
-  constructor(@Inject("ProviderExampleRepository") private provider: ExampleOutputRepository) {}
+  constructor(@Inject("ProviderExampleRepository") private repository: ExampleOutputRepository) {}
 
   @Process("example.created")
   async handle(job: Job<ExampleCreatedEvent>) {
     Logger.log("[CreateExampleJob.handle]", { job })
 
     const event = job.data
-    return this.provider.create(event.exampleEntity)
+    return this.repository.create(event.exampleEntity)
   }
 
   @OnQueueFailed({ name: "example.created" })

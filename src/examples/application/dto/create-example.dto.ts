@@ -1,6 +1,5 @@
-import { PartialType } from "@nestjs/mapped-types"
+import { PartialType, IsNotEmpty } from "../../../core"
 import { ExampleEntity } from "../../domain/entities/example.entity"
-import { IsNotEmpty } from "class-validator"
 
 export class CreateExampleDto extends PartialType(ExampleEntity) {
   @IsNotEmpty({

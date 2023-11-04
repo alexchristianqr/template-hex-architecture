@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common"
+import { Module } from "./core"
 import { ExampleModule } from "./examples/example.module"
 
 @Module({

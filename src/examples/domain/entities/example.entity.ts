@@ -1,5 +1,5 @@
+import { Logger } from "../../../core"
 import { CreateExampleDto } from "../../application/dto/create-example.dto"
-import { Logger } from "@nestjs/common"
 import { UpdateExampleDto } from "../../application/dto/update-example.dto"
 
 export class ExampleEntity {

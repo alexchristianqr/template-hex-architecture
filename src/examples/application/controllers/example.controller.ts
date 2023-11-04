@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger } from "@nestjs/common"
+import { Controller, Get, Post, Body, Patch, Param, Delete, Logger } from "../../../core"
 import { ExampleService } from "../../domain/services/example.service"
 import { CreateExampleDto } from "../dto/create-example.dto"
 import { UpdateExampleDto } from "../dto/update-example.dto"

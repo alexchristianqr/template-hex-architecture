@@ -1,6 +1,4 @@
-import { OnQueueFailed, Process, Processor } from "@nestjs/bull"
-import { Inject, Logger } from "@nestjs/common"
-import { Job } from "bull"
+import { OnQueueFailed, Process, Processor, Inject, Logger, Job } from "../../../core"
 import { ExampleCreatedEvent } from "../events/example-created.event"
 import { ExampleOutputRepository } from "../ports/output/example-output.repository"
 

@@ -1,14 +1,11 @@
-import { Module } from "@nestjs/common"
-import { SequelizeModule } from "@nestjs/sequelize"
+import { Module, BullModule, HttpModule, EventEmitter2, EventEmitterModule, SequelizeModule } from "../core"
 import { ExampleModel } from "./domain/models/example.model"
 import { ExampleHttpRepository } from "./infrastructure/repositories/example-http.repository"
 import { ExampleController } from "./application/controllers/example.controller"
 import { ExampleService } from "./domain/services/example.service"
-import { BullModule } from "@nestjs/bull"
-import { EventEmitter2, EventEmitterModule } from "@nestjs/event-emitter"
 import { CreateExampleJob } from "./domain/jobs/create-example.job"
 import { ExampleCreatedListener } from "./domain/listeners/example-created.listener"
-import { HttpModule } from "@nestjs/axios"
+import { ExampleInMemoryRepository } from "./infrastructure/repositories/example-in-memory.repository"
 
 @Module({
   imports: [
@@ -19,7 +16,9 @@ import { HttpModule } from "@nestjs/axios"
       autoLoadModels: true
     }),
     EventEmitterModule.forRoot(),
-    HttpModule.register({}),
+    HttpModule.register({
+      baseURL: "https://swapi.dev/api/"
+    }),
     BullModule.registerQueue({
       name: "default",
       defaultJobOptions: { attempts: 1 }
@@ -33,7 +32,7 @@ import { HttpModule } from "@nestjs/axios"
     CreateExampleJob,
     {
       provide: "ProviderExampleRepository",
-      useExisting: ExampleHttpRepository // ExampleInMemoryRepository, ExampleSequelizeRepository
+      useExisting: ExampleInMemoryRepository // ExampleHttpRepository, ExampleInMemoryRepository, ExampleSequelizeRepository
     },
     {
       provide: "ProviderEventEmitter",

@@ -1,7 +1,6 @@
-import { Inject, Injectable, Logger } from "@nestjs/common"
+import { Inject, Injectable, Logger, OnEvent } from "../../../core"
 import { ExampleCreatedEvent } from "../events/example-created.event"
 import { ExampleOutputRepository } from "../ports/output/example-output.repository"
-import { OnEvent } from "@nestjs/event-emitter"
 
 @Injectable()
 export class CreateExampleListener {

@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger } from "@nestjs/common"
+import EventEmitter from "events"
 import { CreateExampleDto } from "../../application/dto/create-example.dto"
 import { UpdateExampleDto } from "../../application/dto/update-example.dto"
 import { ExampleOutputRepository } from "../ports/output/example-output.repository"
 import { ExampleEntity } from "../entities/example.entity"
-import EventEmitter from "events"
 import { ExampleCreatedEvent } from "../events/example-created.event"
 import { ExampleInputService } from "../ports/input/example-input.service"
 

@@ -5,11 +5,11 @@ import { UpdateExampleDto } from "../../application/dto/update-example.dto"
 import { CreateExampleDto } from "../../application/dto/create-example.dto"
 
 @Injectable()
-export class ExampleInMemoryRepository implements ExampleOutputRepository {
+export class ExampleLocalRepository implements ExampleOutputRepository {
   items: Array<ExampleEntity> = []
 
   async create(createExampleDto: CreateExampleDto): Promise<any> {
-    Logger.log("[ExampleInMemoryRepository.create]", createExampleDto)
+    Logger.log("[ExampleLocalRepository.create]", createExampleDto)
 
     createExampleDto.id = this.items.length + 1
     this.items.push(createExampleDto)
@@ -18,13 +18,13 @@ export class ExampleInMemoryRepository implements ExampleOutputRepository {
   }
 
   async findAll(): Promise<ExampleEntity[]> {
-    Logger.log("[ExampleInMemoryRepository.findAll]")
+    Logger.log("[ExampleLocalRepository.findAll]")
 
     return this.items
   }
 
   async findById(id: number): Promise<ExampleEntity> {
-    Logger.log("[ExampleInMemoryRepository.findById]")
+    Logger.log("[ExampleLocalRepository.findById]")
 
     const data = this.items.find((item) => item.id === id)
     if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST)
@@ -33,7 +33,7 @@ export class ExampleInMemoryRepository implements ExampleOutputRepository {
   }
 
   async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
-    Logger.log("[ExampleInMemoryRepository.update]", { id, updateExampleDto })
+    Logger.log("[ExampleLocalRepository.update]", { id, updateExampleDto })
 
     let data = this.items.find((item) => item.id === id)
     if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST)
@@ -41,7 +41,7 @@ export class ExampleInMemoryRepository implements ExampleOutputRepository {
   }
 
   async delete(id: number): Promise<any> {
-    Logger.log("[ExampleInMemoryRepository.delete]", { id })
+    Logger.log("[ExampleLocalRepository.delete]", { id })
 
     this.items = this.items.filter((item) => item.id !== id)
   }

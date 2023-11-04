@@ -1,11 +1,10 @@
 import { Module, BullModule, HttpModule, EventEmitter2, EventEmitterModule, SequelizeModule } from "../core"
 import { ExampleModel } from "./domain/models/example.model"
-import { ExampleHttpRepository } from "./infrastructure/repositories/example-http.repository"
 import { ExampleController } from "./application/controllers/example.controller"
 import { ExampleService } from "./domain/services/example.service"
 import { CreateExampleJob } from "./domain/jobs/create-example.job"
 import { ExampleCreatedListener } from "./domain/listeners/example-created.listener"
-import { ExampleInMemoryRepository } from "./infrastructure/repositories/example-in-memory.repository"
+import { ExampleLocalRepository } from "./infrastructure/repositories/example-local.repository"
 
 @Module({
   imports: [
@@ -27,12 +26,12 @@ import { ExampleInMemoryRepository } from "./infrastructure/repositories/example
   controllers: [ExampleController],
   providers: [
     ExampleService,
-    ExampleHttpRepository,
+    ExampleLocalRepository,
     ExampleCreatedListener,
     CreateExampleJob,
     {
       provide: "ProviderExampleRepository",
-      useExisting: ExampleInMemoryRepository // ExampleHttpRepository, ExampleInMemoryRepository, ExampleSequelizeRepository
+      useExisting: ExampleLocalRepository // ExampleHttpRepository, ExampleInMemoryRepository, ExampleSequelizeRepository
     },
     {
       provide: "ProviderEventEmitter",

@@ -1,5 +1,5 @@
 import { Module } from "./core"
-import { ExampleModule } from "./examples/example.module"
+import { ExampleModule } from "./examples/module/example.module"
 
 @Module({
   imports: [ExampleModule]

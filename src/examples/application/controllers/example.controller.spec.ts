@@ -1,22 +1,17 @@
 import { Test, TestingModule } from "@nestjs/testing"
 import { ExampleController } from "./example.controller"
-import { ExampleService } from "../../domain/services/example.service"
+import { configExampleModule } from "../../module/config.module"
 
-describe("AppController", () => {
+describe("ExampleController", () => {
   let appController: ExampleController
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      controllers: [ExampleController],
-      providers: [ExampleService]
-    }).compile()
-
+    const app: TestingModule = await Test.createTestingModule(configExampleModule).compile()
     appController = app.get<ExampleController>(ExampleController)
   })
 
-  describe("root", () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getAll()).toBe("Hello World!")
-    })
+  it("appController.getAll()", async () => {
+    const response = await appController.getAll()
+    expect(response).toStrictEqual({ success: true, message: "get examples", result: [] })
   })
 })

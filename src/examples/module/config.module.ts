@@ -1,12 +1,12 @@
-import { Module, BullModule, HttpModule, EventEmitter2, EventEmitterModule, SequelizeModule } from "../core"
-import { ExampleModel } from "./domain/models/example.model"
-import { ExampleController } from "./application/controllers/example.controller"
-import { ExampleService } from "./domain/services/example.service"
-import { CreateExampleJob } from "./domain/jobs/create-example.job"
-import { ExampleCreatedListener } from "./infrastructure/listeners/example-created.listener"
-import { ExampleLocalRepository } from "./infrastructure/repositories/example-local.repository"
+import { BullModule, EventEmitter2, EventEmitterModule, HttpModule, SequelizeModule } from "../../core"
+import { ExampleModel } from "../domain/models/example.model"
+import { ExampleController } from "../application/controllers/example.controller"
+import { ExampleService } from "../domain/services/example.service"
+import { ExampleLocalRepository } from "../infrastructure/repositories/example-local.repository"
+import { ExampleCreatedListener } from "../infrastructure/listeners/example-created.listener"
+import { CreateExampleJob } from "../domain/jobs/create-example.job"
 
-@Module({
+export const configExampleModule = {
   imports: [
     SequelizeModule.forFeature([ExampleModel]),
     SequelizeModule.forRoot({
@@ -38,5 +38,4 @@ import { ExampleLocalRepository } from "./infrastructure/repositories/example-lo
       useExisting: EventEmitter2
     }
   ]
-})
-export class ExampleModule {}
+}

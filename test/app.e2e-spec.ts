@@ -4,7 +4,7 @@ import { configExampleModule } from "../src/examples/module/config.module"
 
 describe(`ExampleModule (e2e)`, () => {
   let app: INestApplication
-  let basePath = `/examples`
+  const basePath = `/examples`
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule(configExampleModule).compile()

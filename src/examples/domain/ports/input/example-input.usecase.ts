@@ -1,7 +1,7 @@
 export abstract class ExampleInputUsecase {
-  abstract create(data: any): Promise<any>
-  abstract getAll(): Promise<any>
-  abstract getById(id: number): Promise<any>
-  abstract update(id: number, data: any): Promise<any>
-  abstract delete(id: number): Promise<any>
+  abstract createExample(data: any): Promise<any>;
+  abstract getExamples(): Promise<any>;
+  abstract getExampleById(id: number): Promise<any>;
+  abstract updateExample(id: number, data: any): Promise<any>;
+  abstract deleteExample(id: number): Promise<any>;
 }

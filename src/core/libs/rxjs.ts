@@ -1,1 +1,1 @@
-export { catchError, firstValueFrom, lastValueFrom } from "rxjs"
+export { catchError, firstValueFrom, lastValueFrom } from "rxjs";

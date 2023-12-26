@@ -1,12 +1,12 @@
-import { ValidationPipe, NestFactory } from "./core"
-import { AppModule } from "./app.module"
+import { ValidationPipe, NestFactory } from "./core";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
-  app.useGlobalPipes(new ValidationPipe())
-  await app.listen(3000)
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(3000);
 }
 
 bootstrap()
   .then()
-  .catch((reason) => console.error(reason))
+  .catch((reason) => console.error(reason));

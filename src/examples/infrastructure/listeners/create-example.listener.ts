@@ -1,6 +1,6 @@
-import { Inject, Injectable, Logger, OnEvent } from "../../../core"
-import { ExampleCreatedEvent } from "../../domain/events/example-created.event"
-import { ExampleOutputRepository } from "../../domain/ports/output/example-output.repository"
+import { Inject, Injectable, Logger, OnEvent } from "../../../core";
+import { ExampleCreatedEvent } from "../../domain/events/example-created.event";
+import { ExampleOutputRepository } from "../../domain/ports/output/example-output.repository";
 
 @Injectable()
 export class CreateExampleListener {
@@ -8,8 +8,8 @@ export class CreateExampleListener {
 
   @OnEvent("example.created")
   async handle(event: ExampleCreatedEvent) {
-    Logger.log("[CreateExampleListener.handle]", { event })
+    Logger.log("[CreateExampleListener.handle]", { event });
 
-    return this.repository.create(event.exampleEntity)
+    return this.repository.create(event.exampleEntity);
   }
 }

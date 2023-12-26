@@ -1,1 +1,1 @@
-export { IsNotEmpty } from "class-validator"
+export { IsNotEmpty } from "class-validator";

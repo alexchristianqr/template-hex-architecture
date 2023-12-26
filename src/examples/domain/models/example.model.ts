@@ -1,8 +1,8 @@
-import { Column, Model, Table } from "../../../core"
+import { Column, Model, Table } from "../../../core";
 
 interface IExample {
-  name: string
-  age: string
+  name: string;
+  age: string;
 }
 
 @Table({
@@ -10,5 +10,5 @@ interface IExample {
 })
 export class ExampleModel extends Model<IExample> {
   @Column
-  name: string
+  name: string;
 }

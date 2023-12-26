@@ -1,1 +1,1 @@
-export { Table, Column, Model } from "sequelize-typescript"
+export { Table, Column, Model } from "sequelize-typescript";

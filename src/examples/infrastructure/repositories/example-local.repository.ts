@@ -1,48 +1,48 @@
-import { HttpException, HttpStatus, Injectable, Logger } from "../../../core"
-import { ExampleEntity } from "../../domain/entities/example.entity"
-import { ExampleOutputRepository } from "../../domain/ports/output/example-output.repository"
-import { UpdateExampleDto } from "../../application/dto/update-example.dto"
-import { CreateExampleDto } from "../../application/dto/create-example.dto"
+import { HttpException, HttpStatus, Injectable, Logger } from "../../../core";
+import { ExampleEntity } from "../../domain/entities/example.entity";
+import { ExampleOutputRepository } from "../../domain/ports/output/example-output.repository";
+import { UpdateExampleDto } from "../../application/dto/update-example.dto";
+import { CreateExampleDto } from "../../application/dto/create-example.dto";
 
 @Injectable()
 export class ExampleLocalRepository implements ExampleOutputRepository {
-  items: Array<ExampleEntity> = []
+  items: Array<ExampleEntity> = [];
 
   async create(createExampleDto: CreateExampleDto): Promise<any> {
-    Logger.log("[ExampleLocalRepository.create]", createExampleDto)
+    Logger.log("[ExampleLocalRepository.create]", createExampleDto);
 
-    createExampleDto.id = this.items.length + 1
-    this.items.push(createExampleDto)
+    createExampleDto.id = this.items.length + 1;
+    this.items.push(createExampleDto);
 
-    return createExampleDto
+    return createExampleDto;
   }
 
   async getAll(): Promise<ExampleEntity[]> {
-    Logger.log("[ExampleLocalRepository.getAll]")
+    Logger.log("[ExampleLocalRepository.getAll]");
 
-    return this.items
+    return this.items;
   }
 
   async getById(id: number): Promise<ExampleEntity> {
-    Logger.log("[ExampleLocalRepository.getById]")
+    Logger.log("[ExampleLocalRepository.getById]");
 
-    const data = this.items.find((item) => item.id === id)
-    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST)
+    const data = this.items.find((item) => item.id === id);
+    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
 
-    return data
+    return data;
   }
 
   async update(id: number, updateExampleDto: UpdateExampleDto): Promise<any> {
-    Logger.log("[ExampleLocalRepository.update]", { id, updateExampleDto })
+    Logger.log("[ExampleLocalRepository.update]", { id, updateExampleDto });
 
-    let data = this.items.find((item) => item.id === id)
-    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST)
-    data.name = updateExampleDto.name
+    const data = this.items.find((item) => item.id === id);
+    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
+    data.name = updateExampleDto.name;
   }
 
   async delete(id: number): Promise<any> {
-    Logger.log("[ExampleLocalRepository.delete]", { id })
+    Logger.log("[ExampleLocalRepository.delete]", { id });
 
-    this.items = this.items.filter((item) => item.id !== id)
+    this.items = this.items.filter((item) => item.id !== id);
   }
 }

@@ -1,6 +1,6 @@
-import { OnQueueFailed, Process, Processor, Inject, Logger, Job } from "../../../core"
-import { ExampleCreatedEvent } from "../events/example-created.event"
-import { ExampleOutputRepository } from "../ports/output/example-output.repository"
+import { OnQueueFailed, Process, Processor, Inject, Logger, Job } from "../../../core";
+import { ExampleCreatedEvent } from "../events/example-created.event";
+import { ExampleOutputRepository } from "../ports/output/example-output.repository";
 
 @Processor()
 export class CreateExampleJob {
@@ -8,16 +8,16 @@ export class CreateExampleJob {
 
   @Process("example.created")
   async handle(job: Job<ExampleCreatedEvent>) {
-    Logger.log("[CreateExampleJob.handle]", { job })
+    Logger.log("[CreateExampleJob.handle]", { job });
 
-    const event = job.data
-    return this.repository.create(event.exampleEntity)
+    const event = job.data;
+    return this.repository.create(event.exampleEntity);
   }
 
   @OnQueueFailed({ name: "example.created" })
   handleError(error: Error) {
-    Logger.error("[CreateExampleJob.handleError]", { error })
+    Logger.error("[CreateExampleJob.handleError]", { error });
 
-    return error
+    return error;
   }
 }

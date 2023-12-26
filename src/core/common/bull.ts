@@ -1,1 +1,1 @@
-export { Job, Queue } from "bull"
+export { Job, Queue } from "bull";

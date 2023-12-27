@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from "../../../core";
+import { HttpStatus, Injectable, Logger, CustomHttpExceptionService } from "../../../core";
 import { ExampleEntity } from "../../domain/entities/example.entity";
 import { ExampleOutputRepository } from "../../domain/ports/output/example-output.repository";
 import { UpdateExampleDto } from "../../application/dto/update-example.dto";
@@ -20,6 +20,7 @@ export class ExampleLocalRepository implements ExampleOutputRepository {
   async getAll(): Promise<ExampleEntity[]> {
     Logger.log("[ExampleLocalRepository.getAll]");
 
+    if (this.items.length < 1) throw new CustomHttpExceptionService("Examples not loaded", HttpStatus.BAD_REQUEST);
     return this.items;
   }
 
@@ -27,7 +28,7 @@ export class ExampleLocalRepository implements ExampleOutputRepository {
     Logger.log("[ExampleLocalRepository.getById]");
 
     const data = this.items.find((item) => item.id === id);
-    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
+    if (!data) throw new CustomHttpExceptionService("Example model not found", HttpStatus.BAD_REQUEST);
 
     return data;
   }
@@ -36,7 +37,7 @@ export class ExampleLocalRepository implements ExampleOutputRepository {
     Logger.log("[ExampleLocalRepository.update]", { id, updateExampleDto });
 
     const data = this.items.find((item) => item.id === id);
-    if (!data) throw new HttpException("Example model not found", HttpStatus.BAD_REQUEST);
+    if (!data) throw new CustomHttpExceptionService("Example model not found", HttpStatus.BAD_REQUEST);
     data.name = updateExampleDto.name;
   }
 

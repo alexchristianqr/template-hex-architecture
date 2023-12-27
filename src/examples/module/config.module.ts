@@ -1,10 +1,11 @@
-import { BullModule, EventEmitter2, EventEmitterModule, HttpModule, SequelizeModule } from "../../core";
+import { BullModule, EventEmitter2, EventEmitterModule, HttpModule, SequelizeModule, APP_INTERCEPTOR } from "../../core";
 import { ExampleModel } from "../domain/models/example.model";
 import { ExampleController } from "../application/controllers/example.controller";
 import { ExampleService } from "../domain/services/example.service";
 import { ExampleLocalRepository } from "../infrastructure/repositories/example-local.repository";
 import { ExampleCreatedListener } from "../infrastructure/listeners/example-created.listener";
 import { CreateExampleJob } from "../domain/jobs/create-example.job";
+import { ResponseInterceptor } from "../../core/interceptors/response.interceptor";
 
 export const configExampleModule = {
   imports: [
@@ -36,6 +37,10 @@ export const configExampleModule = {
     {
       provide: "ProviderEventEmitter",
       useExisting: EventEmitter2
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor
     }
   ]
 };

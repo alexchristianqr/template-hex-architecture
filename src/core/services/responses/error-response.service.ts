@@ -1,37 +1,23 @@
-import { HttpStatusCodes } from "../../enums";
-
-interface Body {
-  statusCode?: HttpStatusCodes;
-  success?: boolean;
-  message?: string;
-  detail?: any;
-  error?: Error;
-}
-
-interface Payload {
-  body: Omit<Body, "error">;
-}
+import { HttpStatus, Logger } from "../../common";
 
 interface Response {
-  statusCode: HttpStatusCodes;
-  body: string;
+  status?: HttpStatus;
+  success?: boolean;
+  message?: string | null | undefined;
+  error?: Error;
+  stackTrace?: any;
 }
 
 export class ErrorResponseService {
-  private payload: Payload = {
-    body: { message: "Internal server error", success: false, detail: null, statusCode: HttpStatusCodes.INTERNAL_SERVER }
-  };
-  private response: Response = { statusCode: HttpStatusCodes.INTERNAL_SERVER, body: JSON.stringify(this.payload.body) };
+  private response: Response = { message: "Internal server error", success: false, status: HttpStatus.INTERNAL_SERVER_ERROR };
 
-  async apiResponse(payload: Body): Promise<Response> {
-    console.log({ payload });
-    this.payload.body.statusCode = payload?.statusCode || HttpStatusCodes.INTERNAL_SERVER;
-    this.payload.body.success = payload?.success || false;
-    this.payload.body.message = payload?.error?.message || payload?.message;
-    this.payload.body.detail = payload?.error?.stack;
+  async apiResponse(payload: Response): Promise<Response> {
+    this.response.status = payload?.status || HttpStatus.INTERNAL_SERVER_ERROR;
+    this.response.success = payload?.success || false;
+    this.response.message = payload?.error?.message || payload?.message;
+    this.response.stackTrace = payload?.stackTrace;
 
-    this.response.statusCode = this.payload.body.statusCode;
-    this.response.body = JSON.stringify(this.payload.body);
+    Logger.log("[ErrorResponseService.apiResponse]", { response: this.response });
 
     return this.response;
   }

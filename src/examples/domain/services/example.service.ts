@@ -34,7 +34,7 @@ export class ExampleService extends CoreService implements ExampleInputUsecase {
 
     const data = await this.provider.getAll();
 
-    return this.response.send.apiResponse({ status: 200, message: "get examples", result: data });
+    return this.response.send.apiResponse({ message: "get examples", result: data });
   }
 
   async getExampleById(id: number): Promise<any> {

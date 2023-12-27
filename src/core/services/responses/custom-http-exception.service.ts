@@ -1,5 +1,4 @@
-import { HttpException } from "../../common";
-import { HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus } from "../../common";
 
 export class CustomHttpExceptionService extends HttpException {
   private stackTrace: string;

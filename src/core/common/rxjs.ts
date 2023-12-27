@@ -1,1 +1,1 @@
-export { Observable, tap, catchError, throwError } from "rxjs";
+export { Observable, tap, catchError, throwError, map } from "rxjs";

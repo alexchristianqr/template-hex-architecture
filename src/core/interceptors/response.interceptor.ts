@@ -1,4 +1,4 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Observable, BadGatewayException, catchError, throwError, CoreService } from "../../core";
+import { CallHandler, map, CoreService, ExecutionContext, Injectable, NestInterceptor, Observable } from "../../core";
 
 @Injectable()
 export class ResponseInterceptor extends CoreService implements NestInterceptor {
@@ -7,7 +7,6 @@ export class ResponseInterceptor extends CoreService implements NestInterceptor 
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(catchError((error) => this.response.error.apiResponse(error)));
-    // return next.handle().pipe(catchError(() => throwError(() => new BadGatewayException())));
+    return next.handle().pipe(map((response) => response));
   }
 }

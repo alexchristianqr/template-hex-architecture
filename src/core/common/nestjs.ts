@@ -24,5 +24,5 @@ export { BullModule, OnQueueFailed, Process, Processor, InjectQueue } from "@nes
 export { EventEmitter2, EventEmitterModule, OnEvent } from "@nestjs/event-emitter";
 export { HttpService, HttpModule } from "@nestjs/axios";
 export { InjectModel, SequelizeModule } from "@nestjs/sequelize";
-export { NestFactory, APP_INTERCEPTOR } from "@nestjs/core";
+export { NestFactory, APP_INTERCEPTOR, APP_FILTER } from "@nestjs/core";
 export { Test, TestingModule } from "@nestjs/testing";

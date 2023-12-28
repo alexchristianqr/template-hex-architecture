@@ -20,7 +20,7 @@ export class ExampleLocalRepository implements ExampleOutputRepository {
   async getAll(): Promise<ExampleEntity[]> {
     Logger.log("[ExampleLocalRepository.getAll]");
 
-    if (this.items.length < 1) throw new CustomHttpExceptionService("Examples not loaded", HttpStatus.BAD_REQUEST);
+    if (this.items.length < 1) throw new CustomHttpExceptionService("Examples not loaded", HttpStatus.INTERNAL_SERVER_ERROR);
     return this.items;
   }
 
